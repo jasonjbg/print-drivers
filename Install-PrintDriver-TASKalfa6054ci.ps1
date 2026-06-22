@@ -33,11 +33,11 @@ $DriverModelName = "Kyocera TASKalfa 6054ci KX"
 
 # ── Printer queue definitions ─────────────────────────────────────────────────
 $Printers = @(
-    @{ QueueName = "Elm Hallway #5529";      IP = "10.7.144.170"; PortName = "TCP_10.7.144.170" }
-    @{ QueueName = "Elm Front Office #5530"; IP = "10.7.144.171"; PortName = "TCP_10.7.144.171" }
-    @{ QueueName = "HS Front Office";        IP = "10.7.128.172"; PortName = "TCP_10.7.128.172" }
-    @{ QueueName = "HS Library";             IP = "10.7.128.173"; PortName = "TCP_10.7.128.173" }
-    @{ QueueName = "District Office #5531";  IP = "10.7.144.174"; PortName = "TCP_10.7.144.174" }
+    @{ QueueName = "Elm Hallway #5529";      IP = "10.7.144.170"; PortName = "IP_10.7.144.170" }
+    @{ QueueName = "Elm Front Office #5530"; IP = "10.7.144.171"; PortName = "IP_10.7.144.171" }
+    @{ QueueName = "HS Front Office";        IP = "10.7.144.172"; PortName = "IP_10.7.144.172" }
+    @{ QueueName = "HS Library";             IP = "10.7.144.173"; PortName = "IP_10.7.144.173" }
+    @{ QueueName = "District Office #5531";  IP = "10.7.144.174"; PortName = "IP_10.7.144.174" }
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -189,7 +189,16 @@ foreach ($p in $Printers) {
         } catch {
             Write-Log "  Failed to create queue '$q': $_" 'ERROR'
             $queueErrors++
+            continue
         }
+    }
+
+    # Force-correct the port in case Windows assigned the wrong one
+    try {
+        Set-Printer -Name $q -PortName $port
+        Write-Log "  Port confirmed: '$q' → $port"
+    } catch {
+        Write-Log "  Could not force-set port on '$q': $_" 'WARN'
     }
 }
 
