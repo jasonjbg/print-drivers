@@ -35,6 +35,34 @@ New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 Write-Log "Kyocera TASKalfa 6054ci KX — Driver Deploy"
 Write-Log "Queues to add: $($Printers.Count)"
 
+# ── Phase 0: Remove all known old/current queues and ports ───────────────────
+Write-Log "────────────────────────────────────────────────"
+Write-Log "Removing existing queues and ports (clean slate)..."
+
+$QueuesToRemove = @(
+    "Elm Hallway #5529", "Elm Hallway",
+    "Elm Front Office #5530", "Elm Front Office",
+    "HS Front Office", "Hs Front Office",
+    "HS Library", "Hs Library",
+    "District Office #5531", "District Office"
+)
+$PortsToRemove = @(
+    "IP_10.7.144.170","IP_10.7.144.171","IP_10.7.144.172","IP_10.7.144.173","IP_10.7.144.174"
+)
+
+foreach ($q in $QueuesToRemove) {
+    if (Get-Printer -Name $q -ErrorAction SilentlyContinue) {
+        try { Remove-Printer -Name $q; Write-Log "  Removed queue: $q" }
+        catch { Write-Log "  Could not remove queue '$q': $_" 'WARN' }
+    }
+}
+foreach ($port in $PortsToRemove) {
+    if (Get-PrinterPort -Name $port -ErrorAction SilentlyContinue) {
+        try { Remove-PrinterPort -Name $port; Write-Log "  Removed port: $port" }
+        catch { Write-Log "  Could not remove port '$port': $_" 'WARN' }
+    }
+}
+
 try {
     if (Test-Path $WorkDir) { Remove-Item $WorkDir -Recurse -Force }
     New-Item -ItemType Directory -Path $WorkDir, $ExtractDir -Force | Out-Null
