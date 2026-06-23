@@ -1,9 +1,8 @@
-#Requires -RunAsAdministrator
-<#
+﻿<#
 .DESCRIPTION
-    JumpCloud Windows (PowerShell) command — run as SYSTEM.
+    JumpCloud Windows (PowerShell) command â€” run as SYSTEM.
     Removes all Kyocera TASKalfa 6054ci printer queues and ports from this machine.
-    Safe to run on any location — skips anything not found.
+    Safe to run on any location â€” skips anything not found.
 #>
 
 # All known queue names (current and legacy) across all locations
@@ -33,10 +32,10 @@ $PortsToRemove = @(
 )
 
 Write-Host "===================================================="
-Write-Host " Kyocera TASKalfa 6054ci — Full Printer Removal"
+Write-Host " Kyocera TASKalfa 6054ci â€” Full Printer Removal"
 Write-Host "===================================================="
 
-# ── Remove printer queues ─────────────────────────────────────────────────────
+# â”€â”€ Remove printer queues â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ""
 Write-Host "[Phase 1] Removing printer queues..."
 foreach ($name in $QueuesToRemove) {
@@ -45,14 +44,14 @@ foreach ($name in $QueuesToRemove) {
             Remove-Printer -Name $name
             Write-Host "  [REMOVED] $name"
         } catch {
-            Write-Host "  [FAILED]  $name — $_"
+            Write-Host "  [FAILED]  $name â€” $_"
         }
     } else {
-        Write-Host "  [SKIPPED] $name — not found"
+        Write-Host "  [SKIPPED] $name â€” not found"
     }
 }
 
-# ── Remove printer ports ──────────────────────────────────────────────────────
+# â”€â”€ Remove printer ports â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ""
 Write-Host "[Phase 2] Removing printer ports..."
 foreach ($port in $PortsToRemove) {
@@ -61,10 +60,10 @@ foreach ($port in $PortsToRemove) {
             Remove-PrinterPort -Name $port
             Write-Host "  [REMOVED] $port"
         } catch {
-            Write-Host "  [FAILED]  $port — $_"
+            Write-Host "  [FAILED]  $port â€” $_"
         }
     } else {
-        Write-Host "  [SKIPPED] $port — not found"
+        Write-Host "  [SKIPPED] $port â€” not found"
     }
 }
 

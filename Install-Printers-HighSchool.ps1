@@ -1,5 +1,4 @@
-﻿#Requires -RunAsAdministrator
-<#
+﻿<#
 .DESCRIPTION
     JumpCloud Windows (PowerShell) command — run as SYSTEM.
     Downloads and installs the Kyocera TASKalfa 6054ci KX driver,
