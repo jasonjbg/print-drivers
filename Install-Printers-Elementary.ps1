@@ -1,6 +1,6 @@
 <#
 .DESCRIPTION
-    JumpCloud Windows (PowerShell) command — run as SYSTEM.
+    JumpCloud Windows (PowerShell) command -- run as SYSTEM.
     Downloads and installs the Kyocera TASKalfa 6054ci KX driver,
     then creates the printer ports and queues for this location.
 #>
@@ -31,11 +31,11 @@ function Exit-Script {
 }
 
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
-Write-Log "Kyocera TASKalfa 6054ci KX — Driver Deploy"
+Write-Log "Kyocera TASKalfa 6054ci KX -- Driver Deploy"
 Write-Log "Queues to add: $($Printers.Count)"
 
-# ── Phase 0: Remove all known old/current queues and ports ───────────────────
-Write-Log "────────────────────────────────────────────────"
+# -- Phase 0: Remove all known old/current queues and ports -------------------
+Write-Log "------------------------------------------------"
 Write-Log "Removing existing queues and ports (clean slate)..."
 
 $QueuesToRemove = @(
@@ -72,10 +72,10 @@ try {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $wc = New-Object System.Net.WebClient
     $wc.DownloadFile($DriverZipUrl, $ZipPath)
-    Write-Log "Download complete — $([math]::Round((Get-Item $ZipPath).Length/1MB,2)) MB"
+    Write-Log "Download complete -- $([math]::Round((Get-Item $ZipPath).Length/1MB,2)) MB"
 } catch { Exit-Script 1 "Download failed: $_" }
 
-if ((Get-Item $ZipPath).Length -lt 1KB) { Exit-Script 1 "Downloaded file too small — check release URL." }
+if ((Get-Item $ZipPath).Length -lt 1KB) { Exit-Script 1 "Downloaded file too small -- check release URL." }
 
 Write-Log "Extracting..."
 try {
@@ -114,7 +114,7 @@ foreach ($p in $Printers) {
         catch { Write-Log "  Failed to create queue '$q': $_" 'ERROR'; $queueErrors++; continue }
     }
 
-    try { Set-Printer -Name $q -PortName $port; Write-Log "  Port confirmed: $q → $port" }
+    try { Set-Printer -Name $q -PortName $port; Write-Log "  Port confirmed: $q -> $port" }
     catch { Write-Log "  Could not force-set port on '$q': $_" 'WARN' }
 }
 
