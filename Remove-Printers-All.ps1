@@ -1,4 +1,4 @@
-﻿<#
+<#
 .DESCRIPTION
     JumpCloud Windows (PowerShell) command â€” run as SYSTEM.
     Removes all Kyocera TASKalfa 6054ci printer queues and ports from this machine.

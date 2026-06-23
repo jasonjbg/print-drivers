@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Installs the Kyocera TASKalfa 6054ci KX driver and creates all five printer queues.
 
